@@ -1,0 +1,26 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "globals": {
+	"ENV": true
+    },
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "semi": [
+            "warn",
+            "always"
+        ]
+    }
+}

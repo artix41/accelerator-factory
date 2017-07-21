@@ -1,4 +1,6 @@
-import _ from "lodash";
+import {GameState} from "./states/gameState.js";
 
-console.log(_.range(0,10));
-console.log("test");
+var game = new Phaser.Game(320, 480, Phaser.CANVAS, "game");
+
+game.state.add("GameState",GameState);
+game.state.start("GameState");

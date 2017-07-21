@@ -5,6 +5,7 @@ Game for the CERN Summer Student Webfest 2017
 
 You need to have nodejs and npm installed on your computer. On a debian/ubuntu computer, you can install them with:
 ```bash
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install nodejs npm
 ```
 

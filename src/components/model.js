@@ -4,6 +4,7 @@ export var listComponents =
         "name": "RF Cavity",
         "description": "Magnets that accelerate the particle",
         "texture": "rf.png",
+        "icon": "rfIcon.png",
         "price": 10,
         "matrix": [[1,0,0,0,0,0],
                    [0,1,0,0,0,0],
@@ -20,7 +21,8 @@ export var listComponents =
     {
         "name": "Vacuum Chamber",
         "description": "A simple tube, without any magnet. Does nothing.",
-        "texture": "vacuum-chamber.png",
+        "texture": "vacuum.png",
+        "icon": "vacuumIcon.png",
         "price": 1,
         "matrix": [[1,0,0,0,0,0],
                    [0,1,0,0,0,0],
@@ -36,7 +38,8 @@ export var listComponents =
     {
         "name": "Quadrupole Magnet x",
         "description": "Four magnets aimed at focusing the beam on the x axis ",
-        "texture": "quadrupole-x.png",
+        "texture": "quadx.png",
+        "icon": "quadxIcon.png",
         "price": 15,
         "matrix": [[1,0,0,0,0,0],
                    [0,1,0,0,0,0],
@@ -53,7 +56,8 @@ export var listComponents =
     {
         "name": "Quadrupole Magnet y",
         "description": "Four magnets aimed at focusing the beam on the y axis ",
-        "texture": "quadrupole-y.png",
+        "texture": "quady.png",
+        "icon": "quadyIcon.png",
         "price": 15,
         "matrix": [[1,0,0,0,0,0],
                    [0,1,0,0,0,0],

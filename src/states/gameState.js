@@ -1,4 +1,5 @@
 import {Component} from "components"
+import {SimulationState} from "simulationState"
 
 export function GameState(game){
     this.game = game;
@@ -192,7 +193,7 @@ function downRun(item) {
 }
 
 function downSimulate(item) {
-
     item.text = "clicked ";
+    this.game.state.start("SimulationState");
 
 }

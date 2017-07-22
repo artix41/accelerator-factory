@@ -11,6 +11,7 @@ export function Component(type, upgrade) {
     this.inAccelerator = false;
     this.x = undefined;
     this.y = undefined;
+    this.didMatrix = false; // true if the component applied its effect
 
     this.model = listComponents[type];
 }

@@ -4,6 +4,7 @@ export function Component(type, upgrade) {
     /* Inputs
         - type: integer representing the id of the component type in the json
                 model
+        - upgrade : integer representing the upgrade number of the component
     */
     this.type = type;
     this.upgrade = upgrade;

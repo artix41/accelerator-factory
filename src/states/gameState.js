@@ -4,25 +4,58 @@ export function GameState(game){
     this.game = game;
     this.game.money = 0;
     this.game.sizeTerritory = 10;
-    this.game.myComponents = [new Component(4,0), new Component(0,0), new Component(1,0)];
-    this.game.acceleratorComponents = [this.game.myComponents[0]];
+    this.indexInjector = 5;
 
-    this.widthInventory = 275;
+    this.game.myComponents = [new Component(this.indexInjector,0), new Component(2,0), new Component(1,1), new Component(1,2)];
+    this.game.acceleratorComponents = [];
+
+    this.widthInventory = 400;
     this.heightTopBar = 30;
     this.heightButton = 100;
     this.fontTextButton = 30;
+    this.inventoryMargin = {
+        x: 10,
+        y: 20
+    };
+    this.marginConnector = 64;
 };
 
 GameState.prototype = {
     preload: function(){
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         var obj = this;
-        this.game.myComponents.forEach(function(compo) {
-            obj.game.load.image(compo.model.name, '../images/components/' + compo.model.texture);
+        this.game.myComponents.forEach(function(compo, iCompo) {
+            console.log(compo.model.texture[compo.upgrade])
+            obj.game.load.image(compo.model.name + iCompo.toString(), '../images/components/' + compo.model.texture[compo.upgrade]);
         });
     },
     create: function(){
-        this.createInterface()
+        this.createInterface();
+
+        var obj = this;
+
+        this.game.compoGroup = this.game.add.group();
+        this.game.compoGroup.inputEnableChildren = true;
+
+        var nextY = 100;
+        this.game.myComponents.forEach(function(compo, iCompo) {
+            if (!compo.inAccelerator) {
+                var spriteCompo = obj.game.compoGroup.create(0, 0, compo.model.name + iCompo.toString());
+                compo.sprite = spriteCompo;
+                spriteCompo.component = compo;
+                spriteCompo.position.x = obj.inventoryMargin.x;
+                spriteCompo.position.y = nextY;
+                spriteCompo.originalPosition = spriteCompo.position.clone();
+                obj.game.physics.arcade.enable(spriteCompo);
+
+                spriteCompo.inputEnabled = true;
+                spriteCompo.input.enableDrag();
+                spriteCompo.events.onDragStop.add(function(currentSprite) {
+                    obj.stopDrag(currentSprite);
+                }, obj);
+                nextY = spriteCompo.position.y + spriteCompo.height + obj.inventoryMargin.y;
+            }
+        });
     },
 
     update: function(){
@@ -86,7 +119,47 @@ GameState.prototype = {
 
         //Text For Top Menu bar
         var text = this.game.add.text(15,8, "TRIAL", { font: "15px Arial", fill: "#FFFFFF", fontWeight: "700"});
-        var text = this.game.add.text(130,8, "€", { font: "15px Arial", fill: "#FFFF00", fontWeight: "900"});
+        var text = this.game.add.text(130,8, this.game.money.toString() + "€", { font: "15px Arial", fill: "#FFFF00", fontWeight: "900"});
+    },
+
+    stopDrag: function (currentSprite) {
+        var obj = this;
+
+        if (currentSprite.component.model.name == "Proton Injector") {
+            if (obj.game.acceleratorComponents.length == 0) {
+                if (currentSprite.position.x > this.widthInventory) {
+                    currentSprite.input.draggable = false;
+                    obj.game.acceleratorComponents.push(currentSprite.component)
+                }
+                else {
+                    currentSprite.position.copyFrom(currentSprite.originalPosition);
+                }
+            }
+            else {
+                console.log("You must have two injectors in your inventory! Abort Mission! Abort Mission!")
+            }
+        }
+        else if (obj.game.acceleratorComponents.length != 0){
+            var lastComponent = obj.game.acceleratorComponents.slice(-1)[0];
+            var endSprite = lastComponent.sprite;
+            if (!this.game.physics.arcade.overlap(currentSprite, endSprite, function() {
+                /* If it overlapped */
+
+                currentSprite.input.draggable = false;
+                currentSprite.position.copyFrom({
+                    x: endSprite.position.x + endSprite.width - obj.marginConnector,
+                    y: endSprite.position.y + endSprite.height/2 - currentSprite.height/2,
+                    type: endSprite.position.type
+                });
+                currentSprite.anchor.setTo(endSprite.anchor.x, endSprite.anchor.y);
+                obj.game.acceleratorComponents.push(currentSprite.component)
+            })) {
+                currentSprite.position.copyFrom(currentSprite.originalPosition);
+            }
+        }
+        else { // This is not an injector and we have nothing on the territory
+            currentSprite.position.copyFrom(currentSprite.originalPosition);
+        }
     }
 };
 

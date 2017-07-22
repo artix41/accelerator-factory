@@ -2,6 +2,18 @@ import babel from 'rollup-plugin-babel';
 import eslint from 'rollup-plugin-eslint';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
+import rootImport from 'rollup-plugin-root-import';
+import includePaths from 'rollup-plugin-includepaths';
+
+let includePathOptions = {
+    include: {
+        "components": "src/components/component.js",
+        "gameState": "src/states/gamState.js"
+    },
+    paths: ['src'],
+    external: [],
+    extensions: ['.js', '.json', '.html']
+};
 
 export default {
   entry: 'src/main.js',
@@ -12,9 +24,11 @@ export default {
     resolve({
       jsnext: true,
       main: true,
-      browser: true,
+      browser: true
     }),
-    commonjs(),
+    commonjs({
+        include: 'src/**'
+    }),
     eslint({
       exclude: [
         'src/styles/**',
@@ -23,5 +37,6 @@ export default {
     babel({
       exclude: 'node_modules/**',
     }),
+    includePaths(includePathOptions),
   ],
 };

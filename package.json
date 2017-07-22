@@ -25,7 +25,9 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-eslint": "^4.0.0",
+    "rollup-plugin-includepaths": "^0.2.2",
     "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-root-import": "^0.2.2",
     "rollup-watch": "^4.3.1"
   },
   "dependencies": {

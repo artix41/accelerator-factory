@@ -42,7 +42,7 @@ GameState.prototype = {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         var obj = this;
         this.game.myComponents.forEach(function(compo, iCompo) {
-            console.log(compo.model.texture[compo.upgrade])
+            console.log(compo)
             obj.game.load.image(compo.model.name + iCompo.toString(), '../images/components/' + compo.model.texture[compo.upgrade]);
         });
     },
@@ -79,6 +79,13 @@ GameState.prototype = {
             }
         });
         this.game.input.mouse.mouseWheelCallback = this.zoomEvent;
+
+        var graphics = this.game.add.graphics(this.game.world.centerX, this.game.world.centerY);
+
+        graphics.lineStyle(8, 0xffd900);
+
+        graphics.drawEllipse(100, 100, 200, 60);
+
     },
 
     update: function(){
@@ -159,7 +166,7 @@ GameState.prototype = {
         var text = this.game.add.text(130,8, this.game.money.toString() + "€", { font: "15px Arial", fill: "#FFFF00", fontWeight: "900"});
         this.stage.addChild(text);
         text.inputEnabled = true;
-        text.events.onInputDown.add(downAchievements, this);
+        text.events.onInputDown.add(this.downAchievements, this);
 
 
     },
@@ -216,6 +223,10 @@ GameState.prototype = {
     },
 
     zoomEvent: function (event) {
+
+    },
+
+    downAchievements: function(event) {
 
     }
 };

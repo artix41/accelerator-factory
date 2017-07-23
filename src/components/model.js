@@ -94,7 +94,7 @@ export var listComponents =
     },
     {
         "name": "Proton Injector",
-	"upgradeName": ["Bronze", "Silver", "Gold"],
+        "upgradeName": ["Bronze", "Silver", "Gold"],
         "description": "Inject protons to your accelerator",
         "texture": ["injector-bronze.png", "injector-silver.png", "injector-gold.png"],
 	"icon": "injector-small.png",

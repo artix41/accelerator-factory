@@ -113,6 +113,7 @@ ShopState.prototype = {
 	this.obj.game.state.start("ComponentState", this.compType);
     },
 
+
     compBuy: function(compType, compUpg){
 	if(listComponents[this.compType].price[this.compUpg] <= this.obj.game.money){
 	    this.obj.game.money -= listComponents[this.compType].price[this.compUpg];

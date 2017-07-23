@@ -33,7 +33,8 @@ export function GameState(game){
         topBar: {
             width: $(window).width(),
             height: this.heightTopBar
-        }
+        },
+        marginConnector: this.marginConnector
     };
 };
 
@@ -42,7 +43,6 @@ GameState.prototype = {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         var obj = this;
         this.game.myComponents.forEach(function(compo, iCompo) {
-            console.log(compo)
             obj.game.load.image(compo.model.name + iCompo.toString(), '../images/components/' + compo.model.texture[compo.upgrade]);
         });
     },
@@ -80,12 +80,6 @@ GameState.prototype = {
         });
         this.game.input.mouse.mouseWheelCallback = this.zoomEvent;
 
-        var graphics = this.game.add.graphics(this.game.world.centerX, this.game.world.centerY);
-
-        graphics.lineStyle(8, 0xffd900);
-
-        graphics.drawEllipse(100, 100, 200, 60);
-
     },
 
     update: function(){
@@ -120,7 +114,7 @@ GameState.prototype = {
 
 
         //window.graphics = graphics;
-        this.stage.addChild(graphics)
+        this.stage.addChild(graphics);
 
         // SHOP Text
         var text = this.game.add.text(130, $(window).height() - this.heightButton/2 - this.fontTextButton/2, "SHOP", { font: this.fontTextButton.toString() + "px Arial", fill: "#000000", align: "center", fontWeight: "900"});
@@ -163,12 +157,10 @@ GameState.prototype = {
         var text = this.game.add.text(130,8, this.game.money.toString() + "€", { font: "15px Arial", fill: "#FFFF00", fontWeight: "900"});
         this.stage.addChild(text);
         // Achievements link
-        var text = this.game.add.text(130,8, this.game.money.toString() + "€", { font: "15px Arial", fill: "#FFFF00", fontWeight: "900"});
+        var text = this.game.add.text($(window).width() - 200 ,8, "ACHIEVEMENTS", { font: "15px Arial", fill: "#FFFFFF", fontWeight: "900"});
         this.stage.addChild(text);
         text.inputEnabled = true;
         text.events.onInputDown.add(this.downAchievements, this);
-
-
     },
 
     startDrag: function (currentSprite) {
@@ -227,7 +219,7 @@ GameState.prototype = {
     },
 
     downAchievements: function(event) {
-
+        this.game.state.start("AchievementsState")
     }
 };
 

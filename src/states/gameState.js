@@ -24,6 +24,17 @@ export function GameState(game){
     this.yellow = 0xF1C40F;
     this.red = 0xE74C3C;
     this.green = 0x2ecc71;
+
+    this.game.display = {
+        inventory: {
+            width: this.widthInventory,
+            height: $(window).height()
+        },
+        topBar: {
+            width: $(window).width(),
+            height: this.heightTopBar
+        }
+    };
 };
 
 GameState.prototype = {
@@ -68,7 +79,6 @@ GameState.prototype = {
             }
         });
         this.game.input.mouse.mouseWheelCallback = this.zoomEvent;
-        this.game.state.start("SimulationState");
     },
 
     update: function(){
@@ -142,8 +152,15 @@ GameState.prototype = {
         //Text For Top Menu bar
         var text = this.game.add.text(15,8, "TRIAL", { font: "15px Arial", fill: "#FFFFFF", fontWeight: "700"});
         this.stage.addChild(text);
+        // Money
         var text = this.game.add.text(130,8, this.game.money.toString() + "€", { font: "15px Arial", fill: "#FFFF00", fontWeight: "900"});
         this.stage.addChild(text);
+        // Achievements link
+        var text = this.game.add.text(130,8, this.game.money.toString() + "€", { font: "15px Arial", fill: "#FFFF00", fontWeight: "900"});
+        this.stage.addChild(text);
+        text.inputEnabled = true;
+        text.events.onInputDown.add(downAchievements, this);
+
 
     },
 

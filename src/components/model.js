@@ -2,7 +2,6 @@ export var listComponents =
 [
     {
         "name": "Quadrupole Magnet x",
-	"index": 0,
 	"upgradeName": ["Bronze", "Silver", "Gold"],
         "description": "Four magnets aimed at focusing the beam on the x axis ",
         "texture": ["quadrupole-x-bronze.png","quadrupole-x-silver.png","quadrupole-x-gold.png"],
@@ -22,7 +21,6 @@ export var listComponents =
 
     {
         "name": "Quadrupole Magnet y",
-	"index": 1,
 	"upgradeName": ["Bronze", "Silver", "Gold"],
         "description": "Four magnets aimed at focusing the beam on the y axis ",
         "texture": ["quadrupole-y-bronze.png","quadrupole-y-silver.png","quadrupole-y-gold.png"],
@@ -41,7 +39,6 @@ export var listComponents =
     },
     {
         "name": "Detector",
-	"index": 2,
 	"upgradeName": ["Bronze", "Silver", "Gold"],
         "description": "Detect the result of proton collisions",
         "texture": ["detector-bronze.png","detector-silver.png","detector-gold.png"],
@@ -59,7 +56,6 @@ export var listComponents =
     },
     {
         "name": "Proton Injector",
-	"index": 3,
 	"upgradeName": ["Bronze", "Silver", "Gold"],
         "description": "Inject protons to your accelerator",
         "texture": ["injector-bronze.png", "injector-silver.png", "injector-gold.png"],

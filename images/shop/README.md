@@ -6,7 +6,7 @@ Photos for the shop in this directory have three types.
 - `large` 300 x 300 px as a picture in detailed shop page (left)
 - `panel` 300 x 235 px as a picture in information panel (right)
 
-![alt text](/images/shop/description.png "Logo Title Text 1")
+![alt text](/images/shop/description.png)
 
 There are also three levels for components with colour code as follows:
 

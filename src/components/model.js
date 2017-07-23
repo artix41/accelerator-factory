@@ -51,7 +51,7 @@ export var listComponents =
                    [0,0,0,0,1,0],
                    [0,0,0,0,0,1]
                   ],
-        "maxIntensity": [10,20,30],
+        "focusing": [10,20,30],
         "maxQuality": [1,2,3],
         "tutorial": "quadrupole.html"
     },

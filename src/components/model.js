@@ -1,13 +1,38 @@
 export var listComponents =
 [
     {
-	//-------------EDIT THIS WHEN ADDING NEW COMPONENTS-------------
-	//This first index is simply a list of all the components in this list with their indices
+        "name": "RF Cavity",
+        "description": "Magnets that accelerate the particle",
+        "texture": ["rf-bronze.png", "rf-silver.png", "rf-gold.png"],
+        "icon": "rfIcon.png",
+        "price": 10,
+        "matrix": [[1,0,0,0,0,0],
+                   [0,1,0,0,0,0],
+                   [0,0,1,0,0,0],
+                   [0,0,0,1,0,0],
+                   [0,0,0,0,1,0],
+                   [0,0,0,0,0,1]
+                  ],
+        "maxVoltage": [10,20,30],
+        "maxQuality": [1,2,3],
+        "tutorial": "rf.html"
+    },
 
-        "Quadrupole Magnet x": 1,
-        "Quadrupole Magnet y": 2,
-        "Detector": 3,
-        "Proton Injector": 4,
+    {
+        "name": "Vacuum Chamber",
+        "description": "A simple tube, without any magnet. Does nothing.",
+        "texture": ["vacuum-tube-bronze.png", "vacuum-tube-silver.png", "vacuum-tube-gold.png"],
+        "icon": "vacuumIcon.png",
+        "price": 1,
+        "matrix": [[1,0,0,0,0,0],
+                   [0,1,0,0,0,0],
+                   [0,0,1,0,0,0],
+                   [0,0,0,1,0,0],
+                   [0,0,0,0,1,0],
+                   [0,0,0,0,0,1]
+                  ],
+        "maxQuality": [1,2,3],
+        "tutorial": "vacuum-chamber.html"
     },
 
     {

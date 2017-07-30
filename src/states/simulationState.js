@@ -101,9 +101,8 @@ SimulationState.prototype = {
 	        var style = { font: "45px Arial", fill: "#FFFFFF" };
 			energyText.setText('Beam Energy : '+this.game.beam.energy+" MeV" );
 
-			if ( ellipse.a >= 0.5*cavityRadius || ellipse.b >= 0.5*cavityRadius){
+			if (ellipse.a >= 0.5*cavityRadius || ellipse.b >= 0.5*cavityRadius){
 				this.game.currentEvent = "beamLost";
-				console.log("CACA")
 				this.game.beam.vx = 0;
 				ellipse.fa=1;
 				ellipse.fb=1;
@@ -142,18 +141,19 @@ SimulationState.prototype = {
                 var curComponent = this.game.myComponents[this.game.acceleratorComponents[i]];
 				xCurrentMax += curSprite.width;
 				if (curComponent.type == 2 || curComponent.type == 3){
-					xCurrentMax -= this.game.acceleratorComponents[i].sprite.width;
+					xCurrentMax -= curSprite.width;
 				}
 				else{
 					xCurrentMax += margin;
 				}
-				if (this.game.acceleratorComponents[i].type==4){
+				if (curComponent.type==4){
 					xCurrentMax -= margin;
 				}
 			}
 			var xTotalMax = xIni;
 			for (var i=0; i<this.game.acceleratorComponents.length; i++){
-				xTotalMax += this.game.acceleratorComponents[i].width;
+                var curSprite = this.game.mySprites[this.game.acceleratorComponents[i]];
+				xTotalMax += curSprite.width;
 			}
 
 

@@ -9,9 +9,8 @@ export function Component(type, upgrade) {
     this.type = type;
     this.upgrade = upgrade;
     this.inAccelerator = false;
-    this.x = undefined;
-    this.y = undefined;
+    this.position = undefined;
+    this.originalPosition = undefined;
     this.didMatrix = false; // true if the component applied its effect
-
     this.model = listComponents[type];
 }

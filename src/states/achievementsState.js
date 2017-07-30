@@ -1,3 +1,5 @@
+import {GameState} from "gameState";
+
 export function AchievementsState(game){
     console.log("Starting the achievements event");
     this.game = game;
@@ -28,6 +30,8 @@ AchievementsState.prototype = {
         this.game.load.image('trophy4', '../images/achievements/achievements-generic.png');
     },
     create: function(){
+        var gameState = new GameState(this.game);
+        gameState.create();
         // Draw achievements panel
         var graphics = this.game.add.graphics(0, 0);
         graphics.beginFill(0,0.3);
@@ -91,5 +95,5 @@ AchievementsState.prototype = {
 };
 
 function imageClicked () {
-    this.game.state.start("EmptyState");
+    this.game.state.start("GameState");
 }

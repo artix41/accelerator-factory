@@ -1,11 +1,10 @@
 import {Component} from "components";
 import {EventState} from "eventState";
-import {EmptyState} from "emptyState";
+import {GameState} from "gameState"
 
 export function SimulationState(game){
 	this.game = game;
-	console.log("game start");
-
+	console.log("Simulation Start");
 };
 
 
@@ -13,10 +12,13 @@ var currentCompIndex = 0;
 var beamSprite;
 var crossSectionSprite;
 var injectorWidth;
+var injectorIndex;
+var injectorSprite;
+var injectorComponent;
 var xIni;
 var yIni;
 var crossSection;
-var margin ; 
+var margin ;
 
 var ellipse;
 var xEllipse;
@@ -37,19 +39,20 @@ SimulationState.prototype = {
 		this.game.load.image('crossSectionSprite', 'images/cross-section/cross-section-visor.png')
 		this.game.load.image('explosionSprite', 'images/components/explosion.png')
 	},
-
 	create: function(){
 		console.log("creation simulation state");
 
-		injector = this.game.acceleratorComponents[0];
-		injectorWidth = injector.sprite.width ;
-		
-		xIni = injector.sprite.x + injector.sprite.width*0.5;
-		yIni = injector.sprite.y + 14; 		
+        var gameState = new GameState(this.game);
+        gameState.create();
+		injectorIndex = this.game.acceleratorComponents[0];
+        injectorSprite = this.game.mySprites[injectorIndex];
+        injectorComponent = this.game.myComponents[injectorIndex];
+
+		injectorWidth = injectorSprite.width ;
+
+		xIni = injectorSprite.x + injectorSprite.width*0.5;
+		yIni = injectorSprite.y + 14;
 		margin = this.game.display.marginConnector;
-		console.log("margin is ",margin);
-		console.log("salut salut koko");
-		
 		this.game.beam = {
 			x:xIni,
 			y:yIni,
@@ -72,38 +75,32 @@ SimulationState.prototype = {
 		console.log("cavity radius ",cavityRadius);
 
  		this.game.physics.startSystem(Phaser.Physics.ARCADE);
-  		this.game.physics.enable(beamSprite, Phaser.Physics.ARCADE);	
+  		this.game.physics.enable(beamSprite, Phaser.Physics.ARCADE);
 
-   		this.game.physics.enable(crossSectionSprite, Phaser.Physics.ARCADE);	
+   		this.game.physics.enable(crossSectionSprite, Phaser.Physics.ARCADE);
 
 		graphics = this.game.add.graphics(0,0);
 
         graphics.lineStyle(8, 0xffd900);
         xEllipse = crossSectionSprite.x + crossSectionSprite.width*0.5;
         yEllipse = crossSectionSprite.y + crossSectionSprite.height*0.5;
-   
+
         var style = { font: "44px Arial", fill: "#FFFFFF" };
 		energyText = this.game.add.text($(window).width()/2 + 550 ,100, 'Beam Energy : '+this.game.beam.energy+" MeV", style);
 
-
-
-        // graphics.drawEllipse(xEllipse, yEllipse,  60, 60);
-   		
-   		// console.log("first part is a ",this.game.acceleratorComponents[0].model.name)
    		console.log("creation ends");
 
 	},
-  
+
 
 	update: function(){
 			if (currentCompIndex > this.game.acceleratorComponents.length ){
-				this.game.state.start("EmptyState");
+				this.game.state.start("GameState");
 			}
 			// var graphics = this.game.add.graphics(0,0);
 	        var style = { font: "45px Arial", fill: "#FFFFFF" };
 			energyText.setText('Beam Energy : '+this.game.beam.energy+" MeV" );
-			// console.log("param ellipse", ellipse.a," ",ellipse.b)
-			// test if particle out of bound transverse
+
 			if ( ellipse.a >= 0.5*cavityRadius || ellipse.b >= 0.5*cavityRadius){
 				this.game.currentEvent = "beamLost";
 				console.log("CACA")
@@ -113,7 +110,7 @@ SimulationState.prototype = {
 				this.game.add.text($(window).width()/2, $(window).height()/2, ' BEAM LOST !! ', style)
 				explosionSprite = this.game.add.sprite(this.game.beam.x, this.game.beam.y - 85,'explosionSprite')
 				explosionSprite.scale.setTo(3,3);
-	  	 		this.game.physics.enable(explosionSprite, Phaser.Physics.ARCADE);	
+	  	 		this.game.physics.enable(explosionSprite, Phaser.Physics.ARCADE);
 
 				// this.game.state.start("EventState");
 			}
@@ -133,20 +130,18 @@ SimulationState.prototype = {
 	        ellipse.b *= ellipse.fb ;
 
 	        console.log(' # ',currentCompIndex);
-			var currentComp = this.game.acceleratorComponents[currentCompIndex];
+			var currentComp = this.game.myComponents[this.game.acceleratorComponents[currentCompIndex]];
+            var currentSprite = this.game.mySprites[this.game.acceleratorComponents[currentCompIndex]];
 			console.log("salut", currentComp.model.name, ' # ',currentCompIndex);
 			if (currentComp.type == 4){
-				// explosionSprite = this.game.add.sprite(this.game.beam.x + 20, this.game.beam.y - 40,'explosionSprite')
-				// explosionSprite.scale.setTo(1,1);
-				// console.log("DETECTION");
-	  	//  		this.game.physics.enable(explosionSprite, Phaser.Physics.ARCADE);	
 				currentCompIndex = 100;
 			}
 			var xCurrentMax = xIni; // - injectorWidth/2 ;
 			for (var i=0; i<currentCompIndex; i++){
-
-				xCurrentMax += this.game.acceleratorComponents[i].sprite.width;
-				if (this.game.acceleratorComponents[i].type == 2 || this.game.acceleratorComponents[i].type == 3){
+                var curSprite = this.game.mySprites[this.game.acceleratorComponents[i]];
+                var curComponent = this.game.myComponents[this.game.acceleratorComponents[i]];
+				xCurrentMax += curSprite.width;
+				if (curComponent.type == 2 || curComponent.type == 3){
 					xCurrentMax -= this.game.acceleratorComponents[i].sprite.width;
 				}
 				else{
@@ -155,7 +150,7 @@ SimulationState.prototype = {
 				if (this.game.acceleratorComponents[i].type==4){
 					xCurrentMax -= margin;
 				}
-			}	
+			}
 			var xTotalMax = xIni;
 			for (var i=0; i<this.game.acceleratorComponents.length; i++){
 				xTotalMax += this.game.acceleratorComponents[i].width;
@@ -176,14 +171,12 @@ SimulationState.prototype = {
 				currentComp.didMatrix = true;
 				currentCompIndex++;
 
-				
+
 			}
 
-
-
 			console.log("la piece numero ",currentCompIndex, "s'étend jusque ",xCurrentMax )
-			if (this.game.beam.x >= xCurrentMax - currentComp.sprite.width*0.5 && currentComp.didMatrix==false){
-				// RF CASE 
+			if (this.game.beam.x >= xCurrentMax - currentSprite.width*0.5 && currentComp.didMatrix==false){
+				// RF CASE
 				if (currentComp.type == 0){
 					this.game.beam.energy += 2 ;
 					console.log(" LE RF # ",currentCompIndex, "A FAIT EFFET");
@@ -192,13 +185,12 @@ SimulationState.prototype = {
 			}
 
 			if (this.game.beam.x >= xCurrentMax && compHasNoSize == false ){
-
 				currentCompIndex ++ ;
 			}
 
 			if ( currentCompIndex > this.game.acceleratorComponents.length ){
 				this.game.beam.x = xIni;
-				this.game.beam.energy =  injector.model.maxEnergy[0];
+				this.game.beam.energy =  injectorComponent.model.maxEnergy[0];
 				currentCompIndex = 0;
 				currentComp = this.game.acceleratorComponents[0];
 				ellipse.a=60;
@@ -206,14 +198,14 @@ SimulationState.prototype = {
 				ellipse.fa=1.03;
 				ellipse.fb=0.98;
 			}
-		
+
 	}
 
 };
 
 
 function downShop(item) {
-// 
+//
     // item.text = "clicked";
 
 }

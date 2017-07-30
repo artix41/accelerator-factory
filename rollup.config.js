@@ -7,7 +7,7 @@ import includePaths from 'rollup-plugin-includepaths';
 let includePathOptions = {
     include: {
         "components": "src/components/component.js",
-        "gameState": "src/states/gamState.js",
+        "gameState": "src/states/gameState.js",
         "model": "src/components/model.js"
     },
     paths: ['src'],
